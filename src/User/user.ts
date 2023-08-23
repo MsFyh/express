@@ -6,7 +6,7 @@ const userContorller = {
   /**
    * @description 查询用户列表
    */
-  showUser: async (req: Request, res: Response) => {    
+  showUser: async (res: Response) => {    
     let userData = await user.all();
     commonRes(res, userData);
   },
