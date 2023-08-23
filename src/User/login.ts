@@ -30,16 +30,18 @@ const loginContorller = {
   },
 
   /**
-   * 
    * @description 用户注册
    */
   addUser: async (req: Request, res: Response) => {
     let { user_name, password } = req.body;
     let userMessage = await user.searchFirst({ user_name })
 
+    // 查询用户名是否相同
     if (userMessage) {
       commonRes.fail(res, {}, '用户名相同')
     }
+
+    // 
 
     // await user.insert(req.body);
     commonRes(res, userMessage);
