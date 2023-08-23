@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import commonRes from "../../utils/commonRes";
+import { isWeakPassword, hashPassword } from "../../utils/tools"
+
 const user = require("../../models/User");
 
 declare module 'express-session' {
@@ -22,7 +24,7 @@ const loginContorller = {
     }
     
     if (userMessage.user_name === user_name && userMessage.password === password) {
-      req.session.user = user;
+      req.session.user = userMessage;
       commonRes(res, '登录成功')
     } else {
       commonRes.fail(res, {}, '用户名或密码错误')
@@ -38,13 +40,13 @@ const loginContorller = {
 
     // 查询用户名是否相同
     if (userMessage) {
-      commonRes.fail(res, {}, '用户名相同')
+      commonRes.fail(res, {}, '用户名重复')
+    } else if (isWeakPassword(password)) {
+      commonRes.fail(res, {}, '密码强度较低，请重新输入')
+    } else {
+      await user.insert({ user_name, password: hashPassword(password)});
+      commonRes(res, '新增成功'); 
     }
-
-    // 
-
-    // await user.insert(req.body);
-    commonRes(res, userMessage);
   },
 }
 

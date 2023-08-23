@@ -24,7 +24,7 @@ const userContorller = {
    * @description 用户信息编辑
    */
   editUser: async (req: Request, res: Response) => {
-    await user.insert(req.body);
+    await user.update(req.session.user.user_id,req.body);
     commonRes(res, {});
   },
 };
