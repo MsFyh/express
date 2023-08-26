@@ -23,9 +23,18 @@ class base {
   
   /**
    * @description 查询所有用户
+   * @param page 搜索页数
+   * @param pageSize 搜索条数
    */
-  all() {
-    return knex(this.table).select().where("status", "=", 0);
+  async all(page: number, pageSize: number) {
+    const offset =  (page - 1) * pageSize;
+    
+    let list = await knex(this.table).select().offset(offset).limit(pageSize).where("status", "=", 0)
+    let count = await knex(this.table).where("status", "=", 0).count('user_id as count ').first();
+    
+    return {
+      list, total: count.count
+    }
   }
 
   /**

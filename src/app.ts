@@ -26,9 +26,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    name: "my-session-cookie",
     maxAge: 60 * 60 * 1000, // 1 小时
-    secure: true, // 仅在 HTTPS 连接中发送 cookie
+    secure: false, // 仅在 HTTPS 连接中发送 cookie
     httpOnly: true // 限制客户端 JavaScript 访问 cookie
   }
 }));

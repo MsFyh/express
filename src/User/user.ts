@@ -6,8 +6,9 @@ const userContorller = {
   /**
    * @description 查询用户列表
    */
-  showUser: async (res: Response) => {    
-    let userData = await user.all();
+  showUser: async (req: Request, res: Response) => {    
+    let userData = await user.all(req.query.page || 1, req.query.pageSize);
+    console.log(userData)
     commonRes(res, userData);
   },
 
